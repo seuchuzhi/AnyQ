@@ -1,15 +1,15 @@
 {
     "train_data":{
-        "train_file": "data/convert_train_point_data",
-        "data_size": 400,
-        "left_slots" : [["left",32]],
-        "right_slots" : [["right",32]]
+        "train_file": "/home/hadoop-consec-algo/text/quora-question-pairs/convert_train_1101.tfrecord",
+        "data_size": 323270,
+        "left_slots": [["left", 32]],
+        "right_slots": [["right", 32]]
     },
 
     "model":{
         "net_py": "./nets/matchpyramid",
         "net_class": "MatchPyramid",
-        "vocabulary_size": 3,
+        "vocabulary_size": 52070,
         "embedding_dim": 128,
         "num_filters": 256,
         "hidden_size": 128,
@@ -30,8 +30,8 @@
     },
 
     "setting":{
-        "batch_size": 64,
-        "num_epochs": 1,
+        "batch_size": 800,
+        "num_epochs": 100,
         "thread_num": 6,
         "print_iter": 100,
         "model_path": "model/pointwise",
@@ -41,13 +41,13 @@
     },
 
     "test_data":{
-        "test_file": "data/convert_test_pointwise_data",
-        "test_model_file":  "model/pointwise/pyramid.epoch1",
+        "test_file": "/home/hadoop-consec-algo/text/quora-question-pairs/convert_val_1101.tfrecord",
+        "test_model_file":  "model/pointwise/pyramid.final",
         "test_result": "result_pyramid_pointwise"
     },
     
     "freeze":{
-        "save_path": "model/pointwise/pyramid.epoch1",
+        "save_path": "model/pointwise/pyramid.final",
         "freeze_path": "tf.graph"
     }
 }
