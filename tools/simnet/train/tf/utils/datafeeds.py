@@ -111,9 +111,9 @@ class TFPointwisePaddingData(object):
         batch_examples = load_batch_ops(example, self.batch_size, self.shuffle)
         features_types = {"label": tf.FixedLenFeature([2], tf.int64)}
         [features_types.update({u: tf.FixedLenFeature([v], tf.int64)}) 
-                            for (u, v) in self.left_slots.iteritems()]
+                            for (u, v) in self.left_slots.items()]
         [features_types.update({u: tf.FixedLenFeature([v], tf.int64)}) 
-                            for (u, v) in self.right_slots.iteritems()]
+                            for (u, v) in self.right_slots.items()]
         features = tf.parse_example(batch_examples, features = features_types)
         return dict([(k, features[k]) for k in self.left_slots.keys()]),\
                 dict([(k, features[k]) for k in self.right_slots.keys()]),\

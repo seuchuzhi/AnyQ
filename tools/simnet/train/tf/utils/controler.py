@@ -39,11 +39,13 @@ def run_predict(pred, label, config):
         pred_index = tf.argmax(pred, 1)
         acc = tf.constant([0.0])
     modelfile = config["test_model_file"]
-    result_file = file(config["test_result"], "w")
+    result_file = open(config["test_result"], "w")
     step = 0
     init = tf.group(tf.global_variables_initializer(),
                     tf.local_variables_initializer())
-    with tf.Session(config=tf.ConfigProto(intra_op_parallelism_threads=1)) \
+    config = tf.ConfigProto(log_device_placement = True, allow_soft_placement=True)
+    config.gpu_options.allow_growth = True
+    with tf.Session(config=config) \
                     as sess:
         sess.run(init)
         saver.restore(sess, modelfile)
@@ -63,7 +65,7 @@ def run_predict(pred, label, config):
     result_file.close()
     if mode == "pointwise":
         mean_acc = mean_acc / step
-        print >> sys.stderr, "accuracy: %4.2f" % (mean_acc * 100)
+        print("accuracy: %4.2f" % (mean_acc * 100))
 
 
 def run_trainer(loss, optimizer, config):
@@ -81,9 +83,9 @@ def run_trainer(loss, optimizer, config):
     saver = tf.train.Saver(max_to_keep=None)
     init = tf.group(tf.global_variables_initializer(),
                     tf.local_variables_initializer())
-    with tf.Session(config=tf.ConfigProto(intra_op_parallelism_threads=thread_num, 
-                                          inter_op_parallelism_threads=thread_num)) \
-                    as sess:
+    config = tf.ConfigProto(log_device_placement = True, allow_soft_placement=True)
+    config.gpu_options.allow_growth = True
+    with tf.Session(config=config) as sess:
         sess.run(init)
         coord = tf.train.Coordinator()
         read_thread = tf.train.start_queue_runners(sess=sess, coord=coord)

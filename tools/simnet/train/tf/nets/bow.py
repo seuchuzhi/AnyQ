@@ -52,7 +52,13 @@ class BOW(object):
         """
         left = left_slots[self.left_name]
         right = right_slots[self.right_name]
+        print_left_op = tf.print('left value is ', left)
+#         with tf.control_dependencies([print_left_op]):
+#             left_emb = self.emb_layer.ops(left)
         left_emb = self.emb_layer.ops(left)
+        print_left_emb_op = tf.print('left emb value is ', left_emb)
+#         with tf.control_dependencies([print_left_emb_op]):
+#             right_emb = self.emb_layer.ops(right)
         right_emb = self.emb_layer.ops(right)
         left_pool = self.seq_pool_layer.ops(left_emb)
         right_pool = self.seq_pool_layer.ops(right_emb)

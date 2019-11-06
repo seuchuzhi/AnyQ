@@ -1,7 +1,7 @@
 {
     "train_data":{
-        "train_file": "data/convert_train_pointwise_data",
-        "data_size": 62,
+        "train_file": "/home/hadoop-consec-algo/text/quora-question-pairs/convert_train_1101.tfrecord",
+        "data_size": 323270,
         "left_slots": [["left", 32]],
         "right_slots": [["right", 32]]
     },
@@ -9,7 +9,7 @@
     "model":{
         "net_py": "./nets/bow",
         "net_class": "BOW",
-        "vocabulary_size": 3,
+        "vocabulary_size": 52070,
         "embedding_dim": 128,
         "bow_size": 128,
         "hidden_size": 128,
@@ -25,8 +25,8 @@
     },
 
     "setting": {
-        "batch_size": 8,
-        "num_epochs": 1,
+        "batch_size": 800,
+        "num_epochs": 200,
         "thread_num": 6,
         "print_iter": 100,
         "model_path": "model/pointwise",
@@ -36,8 +36,8 @@
     },
 
     "test_data": {
-        "test_file": "data/convert_test_point_data",
-        "test_model_file": "model/pointwise/bow.epoch1",
+        "test_file": "/home/hadoop-consec-algo/text/quora-question-pairs/convert_val_1101.tfrecord",
+        "test_model_file": "model/pointwise/bow.final",
         "test_result": "result_bow_pointwise"
     },
 

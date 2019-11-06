@@ -50,7 +50,7 @@ def parse_text_match_pointwise_pad_data(line, func_args):
     seq_len = func_args[0]
     pad_id = func_args[1]
     # left_ids \t right_ids \t label
-    group = line.strip().split("\t")
+    group = line.split("\t")
     if len(group) != 3:
         logging.warning(
             "the line not conform to format(left_ids, right_ids, label)")
@@ -58,12 +58,16 @@ def parse_text_match_pointwise_pad_data(line, func_args):
     label = [0, 0]
     all_ids = []
     for i in [0, 1]:
-        tmp_ids = [int(t) for t in group[i].strip().split(" ")]
+        try:
+            tmp_ids = [int(t) for t in group[i].strip().split(" ")]
+        except Exception as e:
+            print(line)
+
         if len(tmp_ids) < seq_len:
             pad_len = seq_len - len(tmp_ids)
             tmp_ids = tmp_ids + [pad_id] * pad_len
         all_ids.append(tmp_ids[:seq_len])
-    label[int(group[2])] = 1
+    label[int(float(group[2]))] = 1
     example = tf.train.Example(features=tf.train.Features(
         feature={"label": int_feature(label),
                  "left": int_feature(all_ids[0]),
@@ -97,22 +101,11 @@ def parse_text_match_pairwise_pad_data(line, func_args):
     return example
 
 
-def usage():
-    """
-    usage
-    """
-    print sys.argv[0], "options"
-    print "options"
-    print "\ttype: data type include pointwise or pairwise"
-    print "\tinputfile: input file path"
-    print "\trecordfile: output recorf file"
-    print "\tpad_id: pad id"
-    print "\tmax_len: sequence max length"
-
 
 if __name__ == "__main__":
     if len(sys.argv) != 6:
-        usage()
+        #usage()
+        print(sys.argv)
         sys.exit(-1)
     input_data_format = sys.argv[1]
     filename = sys.argv[2]
