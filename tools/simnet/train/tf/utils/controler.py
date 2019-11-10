@@ -54,9 +54,9 @@ def run_predict(pred, label, config, loss):
         while not coord.should_stop():
             step += 1
             try:
-                ground, pi, a, prob, loss = sess.run([label_index, pred_index, acc, score, loss])
+                ground, pi, a, prob, loss_val = sess.run([label_index, pred_index, acc, score, loss])
                 mean_acc += a
-                print("eval batch loss: ".format(loss))
+                print("eval batch loss: ".format(loss_val))
                 for i in range(len(prob)):
                     result_file.write("%d\t%d\t%f\n" % (ground[i], pi[i], prob[i]))
             except tf.errors.OutOfRangeError:
