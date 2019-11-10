@@ -64,7 +64,7 @@ class SoftmaxWithLoss(object):
     """
     a layer class: softmax loss
     """
-    def __init__(self):
+    def __init__(self, config=None):
         """
         init function
         """
