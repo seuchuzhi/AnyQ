@@ -96,7 +96,10 @@ def predict(conf_dict):
     test_l, test_r, test_y = test_datafeed.ops()
     # test network
     pred = net.predict(test_l, test_r)
-    controler.run_predict(pred, test_y, conf_dict)
+    loss_layer = utility.import_object(
+        conf_dict["loss_py"], conf_dict["loss_class"])(conf_dict)
+    loss = loss_layer.ops(pos_score, neg_score)   
+    controler.run_predict(pred, test_y, conf_dict, loss)
 
 
 def freeze(conf_dict):

@@ -20,7 +20,7 @@ import time
 import tensorflow as tf
 
 
-def run_predict(pred, label, config):
+def run_predict(pred, label, config, loss):
     """
     run classification predict function handle
     """
@@ -54,8 +54,9 @@ def run_predict(pred, label, config):
         while not coord.should_stop():
             step += 1
             try:
-                ground, pi, a, prob = sess.run([label_index, pred_index, acc, score])
+                ground, pi, a, prob, loss = sess.run([label_index, pred_index, acc, score, loss])
                 mean_acc += a
+                print("eval batch loss: ".format(loss))
                 for i in range(len(prob)):
                     result_file.write("%d\t%d\t%f\n" % (ground[i], pi[i], prob[i]))
             except tf.errors.OutOfRangeError:
