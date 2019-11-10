@@ -98,7 +98,7 @@ def predict(conf_dict):
     pred = net.predict(test_l, test_r)
     loss_layer = utility.import_object(
         conf_dict["loss_py"], conf_dict["loss_class"])(conf_dict)
-    loss = loss_layer.ops(pos_score, neg_score)   
+    loss = loss_layer.ops(pred, test_y)
     controler.run_predict(pred, test_y, conf_dict, loss)
 
 
